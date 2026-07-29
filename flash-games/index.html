@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Game</title>
+
+<script src="ruffle/ruffle.js"></script>
+
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+}
+
+#player {
+    width: 100%;
+    height: 100%;
+}
+</style>
+
+</head>
+
+<body>
+
+<div id="player"></div>
+
+<script>
+
+const params = new URLSearchParams(window.location.search);
+const game = params.get("game");
+
+if (game) {
+
+    window.addEventListener("load", () => {
+
+        const ruffle = window.RufflePlayer.newest();
+
+        const player = ruffle.createPlayer();
+
+        player.style.width = "100%";
+        player.style.height = "100%";
+
+        document.getElementById("player").appendChild(player);
+
+        player.load({
+            url: "games/" + decodeURIComponent(game)
+        });
+
+    });
+
+}
+
+</script>
+
+</body>
+</html>
