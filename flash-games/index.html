@@ -16,11 +16,25 @@ html, body {
     height: 100%;
     overflow: hidden;
     background: #000;
+
+    /* Центрируем плеер на странице */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #player {
     width: 100%;
-    height: 100%;
+    max-width: 800px; /* Ограничиваем максимальную ширину */
+    aspect-ratio: 4 / 3; /* Фиксируем пропорцию 800x600 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+ruffle-player {
+    width: 100% !important;
+    height: 100% !important;
 }
 </style>
 
@@ -43,13 +57,14 @@ if (game) {
 
         const player = ruffle.createPlayer();
 
-        player.style.width = "100%";
-        player.style.height = "100%";
-
         document.getElementById("player").appendChild(player);
 
+        /* Передаем конфиг для правильного масштабирования 800x600 */
         player.load({
-            url: "games/" + decodeURIComponent(game)
+            url: "games/" + decodeURIComponent(game),
+            scale: "showAll",
+            forceScale: true,
+            letterbox: "off"
         });
 
     });
