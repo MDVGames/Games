@@ -16,25 +16,13 @@ html, body {
     height: 100%;
     overflow: hidden;
     background: #000;
-
-    /* Центрируем плеер на странице */
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
-#player {
-    width: 100%;
-    max-width: 800px; /* Ограничиваем максимальную ширину */
-    aspect-ratio: 4 / 3; /* Фиксируем пропорцию 800x600 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-ruffle-player {
+/* ЗАМЕНА: Растягиваем плеер и сам Ruffle на все 100% доступного места */
+#player, ruffle-player {
     width: 100% !important;
     height: 100% !important;
+    display: block;
 }
 </style>
 
@@ -59,9 +47,9 @@ if (game) {
 
         document.getElementById("player").appendChild(player);
 
-        /* Передаем конфиг для правильного масштабирования 800x600 */
         player.load({
             url: "games/" + decodeURIComponent(game),
+            /* ЭТИ ПАРАМЕТРЫ МАСШТАБИРУЮТ SWF ПРИ ИЗМЕНЕНИИ ОКТА: */
             scale: "showAll",
             forceScale: true,
             letterbox: "off"
