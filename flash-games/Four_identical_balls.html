@@ -3,20 +3,44 @@
 <head>
 <meta charset="UTF-8">
 
-<title>Four identical balls</title>
+<title>Ruffle Launcher</title>
 
-<script src="ruffle/ruffle.js"></script>
+<script src="ruffle.js"></script>
+
+<style>
+body {
+    margin: 0;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+</style>
 
 </head>
 
-<body style="margin:0;background:#000;">
+<body>
 
-<object 
-    data="games/Four_identical_balls.swf"
-    type="application/x-shockwave-flash"
-    width="800"
-    height="600">
-</object>
+<script>
+
+const params = new URLSearchParams(window.location.search);
+
+const game = params.get("game") || "Four_identical_balls.swf";
+const width = params.get("width") || "800";
+const height = params.get("height") || "600";
+
+
+const object = document.createElement("object");
+
+object.data = "games/" + game;
+object.type = "application/x-shockwave-flash";
+
+object.width = width;
+object.height = height;
+
+document.body.appendChild(object);
+
+</script>
 
 </body>
 </html>
