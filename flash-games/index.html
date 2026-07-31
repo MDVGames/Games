@@ -3,8 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="robots" content="noindex, nofollow">
-
 <title>Game</title>
 
 <script src="ruffle/ruffle.js"></script>
@@ -17,23 +15,56 @@ html, body {
     height: 100%;
     overflow: hidden;
     background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-#player, ruffle-player, ruffle-embed, ruffle-object {
+#player, ruffle-player {
     width: 100% !important;
     height: 100% !important;
     display: block !important;
 }
 
-ruffle-player canvas {
-    width: 100% !important;
-    height: 100% !important;
+/* Оверлей с кнопкой Play */
+#play-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.play-btn {
+    padding: 15px 40px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #ff4757;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.play-btn:hover {
+    background-color: #ff6b81;
+    transform: scale(1.05);
 }
 </style>
-
 </head>
 
 <body>
+
+<!-- Кнопка Play над игрой -->
+<div id="play-overlay">
+    <button class="play-btn" id="start-button">PLAY</button>
+</div>
 
 <div id="player"></div>
 
@@ -42,12 +73,24 @@ const params = new URLSearchParams(window.location.search);
 const game = params.get("game");
 
 if (game) {
-    window.addEventListener("load", () => {
+    const startBtn = document.getElementById("start-button");
+    const overlay = document.getElementById("play-overlay");
+
+    startBtn.addEventListener("click", () => {
+        // 1. Запрашиваем Fullscreen
+        if (document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen();
+        } else if (document.documentElement.webkitRequestFullscreen) {
+            document.documentElement.webkitRequestFullscreen();
+        }
+
+        // 2. Скрываем кнопку
+        overlay.style.display = "none";
+
+        // 3. Загружаем и запускаем Ruffle
         const ruffle = window.RufflePlayer.newest();
         const player = ruffle.createPlayer();
-        const container = document.getElementById("player");
-
-        container.appendChild(player);
+        document.getElementById("player").appendChild(player);
 
         player.load({
             url: "games/" + decodeURIComponent(game),
@@ -57,23 +100,6 @@ if (game) {
             backgroundColor: "#000000",
             wmode: "opaque"
         });
-
-        // Открываем Fullscreen при первом клике пользователя по контейнеру игры
-        function enableFullscreen() {
-            if (!document.fullscreenElement) {
-                if (document.documentElement.requestFullscreen) {
-                    document.documentElement.requestFullscreen();
-                } else if (document.documentElement.webkitRequestFullscreen) { /* Safari */
-                    document.documentElement.webkitRequestFullscreen();
-                } else if (document.documentElement.msRequestFullscreen) { /* IE11 */
-                    document.documentElement.msRequestFullscreen();
-                }
-            }
-            // Удаляем слушатель, чтобы повторные клики в игре не выбивали fullscreen
-            container.removeEventListener("click", enableFullscreen);
-        }
-
-        container.addEventListener("click", enableFullscreen);
     });
 }
 </script>
