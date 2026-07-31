@@ -14,10 +14,14 @@
 <ruffle-player></ruffle-player>
 
 <script>
-const player = document.querySelector("ruffle-player");
+window.addEventListener("load", function() {
 
-player.load({
-    url: "games/Four_identical_balls.swf"
+    const player = document.querySelector("ruffle-player");
+
+    player.load({
+        url: "games/Four_identical_balls.swf"
+    });
+
 });
 </script>
 
