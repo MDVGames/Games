@@ -25,7 +25,6 @@ html, body {
     border: 3px solid #555;
     border-radius: 8px;
 }
-
 </style>
 
 </head>
@@ -42,12 +41,16 @@ const game = params.get("game");
 const width = params.get("width") || 800;
 const height = params.get("height") || 600;
 
+
 const object = document.createElement("object");
 
 object.data = "games/" + game;
 object.type = "application/x-shockwave-flash";
 object.width = width;
 object.height = height;
+
+object.setAttribute("allowfullscreen", "true");
+
 
 document.getElementById("frame").appendChild(object);
 
