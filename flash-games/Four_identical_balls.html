@@ -8,13 +8,24 @@
 <script src="ruffle/ruffle.js"></script>
 
 <style>
-body {
+html, body {
     margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
     background: #000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+    overflow: hidden;
+}
+
+.game {
+    width: 800px;
+    height: 600px;
+    margin: 0 auto;
+}
+
+object {
+    width: 800px;
+    height: 600px;
 }
 </style>
 
@@ -22,12 +33,12 @@ body {
 
 <body>
 
-<object 
-    data="games/Four_identical_balls.swf"
-    type="application/x-shockwave-flash"
-    width="800"
-    height="600">
-</object>
+<div class="game">
+    <object 
+        data="games/Four_identical_balls.swf"
+        type="application/x-shockwave-flash">
+    </object>
+</div>
 
 </body>
 </html>
