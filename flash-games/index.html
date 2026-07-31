@@ -19,14 +19,12 @@ html, body {
     background-color: #000;
 }
 
-/* Растягиваем контейнер и сам плеер Ruffle на 100% */
 #player, ruffle-player, ruffle-embed, ruffle-object {
     width: 100% !important;
     height: 100% !important;
     display: block !important;
 }
 
-/* Растягиваем canvas внутренности Ruffle */
 ruffle-player canvas {
     width: 100% !important;
     height: 100% !important;
@@ -40,39 +38,44 @@ ruffle-player canvas {
 <div id="player"></div>
 
 <script>
-
 const params = new URLSearchParams(window.location.search);
 const game = params.get("game");
 
 if (game) {
-
     window.addEventListener("load", () => {
-
         const ruffle = window.RufflePlayer.newest();
-
         const player = ruffle.createPlayer();
+        const container = document.getElementById("player");
 
-        document.getElementById("player").appendChild(player);
+        container.appendChild(player);
 
         player.load({
             url: "games/" + decodeURIComponent(game),
-            
-            /* exactFit — насильно растягивает SWF на всё окно (и по ширине, и по высоте) */
             scale: "exactFit",
             forceScale: true,
-            
-            /* Убираем рамки (letterbox) */
             letterbox: "off",
-            
-            /* Задаём черный фон плееру, чтобы не появлялось белых полос при загрузке */
             backgroundColor: "#000000",
             wmode: "opaque"
         });
 
+        // Открываем Fullscreen при первом клике пользователя по контейнеру игры
+        function enableFullscreen() {
+            if (!document.fullscreenElement) {
+                if (document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen();
+                } else if (document.documentElement.webkitRequestFullscreen) { /* Safari */
+                    document.documentElement.webkitRequestFullscreen();
+                } else if (document.documentElement.msRequestFullscreen) { /* IE11 */
+                    document.documentElement.msRequestFullscreen();
+                }
+            }
+            // Удаляем слушатель, чтобы повторные клики в игре не выбивали fullscreen
+            container.removeEventListener("click", enableFullscreen);
+        }
+
+        container.addEventListener("click", enableFullscreen);
     });
-
 }
-
 </script>
 
 </body>
