@@ -22,11 +22,9 @@ html, body {
     align-items: center;
 }
 
-.game-container {
-    width: 100vw;
-    height: 75vw;
-    max-width: 133.33vh;
-    max-height: 100vh;
+#player {
+    width: min(100vw, 133.33vh);
+    height: min(75vw, 100vh);
 }
 
 ruffle-player {
@@ -40,15 +38,20 @@ ruffle-player {
 
 <body>
 
-<div class="game-container">
-    <ruffle-player></ruffle-player>
-</div>
+<div id="player"></div>
 
 <script>
 
 window.addEventListener("load", () => {
 
-    const player = document.querySelector("ruffle-player");
+    const ruffle = window.RufflePlayer.newest();
+
+    const player = ruffle.createPlayer();
+
+    player.style.width = "100%";
+    player.style.height = "100%";
+
+    document.getElementById("player").appendChild(player);
 
     player.load({
         url: "games/Four_identical_balls.swf"
